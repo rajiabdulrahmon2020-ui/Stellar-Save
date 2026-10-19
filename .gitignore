@@ -10,12 +10,9 @@ frontend/.vite/
 node_modules/
 
 # Environment
-.env
-.env.local
 .env.*.local
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -27,3 +24,4 @@ Thumbs.db
 
 # Test snapshots (optional - uncomment if you don't want to commit these)
 # **/test_snapshots/
+config.bat
