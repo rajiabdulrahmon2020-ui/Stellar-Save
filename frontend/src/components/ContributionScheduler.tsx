@@ -37,6 +37,10 @@ import {
   useScheduledContributions,
   type ScheduledContribution,
 } from '../hooks/useScheduledContributions';
+import {
+  translateValidationMessage,
+  validateScheduledContribution,
+} from '../schemas/contributionSchema';
 
 interface Props {
   groupId: string;
@@ -78,19 +82,13 @@ export function ContributionScheduler({ groupId, groupName, contributionAmount }
   const lowBalance = balance !== null && balance < totalScheduled;
 
   // ── Validation ───────────────────────────────────────────────────────────
-  function validate(f: FormState): string | null {
-    const amt = parseFloat(f.amount);
-    if (!f.amount || isNaN(amt) || amt <= 0) return 'Amount must be a positive number.';
-    if (!f.scheduledDate) return 'Please select a date and time.';
-    if (new Date(f.scheduledDate) <= new Date()) return 'Scheduled date must be in the future.';
-    return null;
-  }
+  // Rules live in `schemas/contributionSchema`, shared with ContributionFlow.
 
   // ── Add ──────────────────────────────────────────────────────────────────
   function handleAdd() {
-    const err = validate(form);
-    if (err) { setFormError(err); return; }
-    setFormError(null);
+    const err = validateScheduledContribution(form);
+    setFormError(err ? translateValidationMessage(err) : null);
+    if (err) return;
     add({
       groupId,
       groupName,
@@ -112,7 +110,7 @@ export function ContributionScheduler({ groupId, groupName, contributionAmount }
   }
 
   function saveEdit(id: string) {
-    const err = validate(editForm);
+    const err = validateScheduledContribution(editForm);
     if (err) return; // silently ignore — field-level feedback could be added
     update(id, {
       amount: parseFloat(editForm.amount),
@@ -132,8 +130,8 @@ export function ContributionScheduler({ groupId, groupName, contributionAmount }
       {/* Balance warning */}
       {lowBalance && (
         <Alert severity="warning" sx={{ mb: 2 }}>
-          Your balance ({xlmBalance} XLM) may be insufficient to cover all scheduled
-          contributions ({totalScheduled} XLM total).
+          Your balance ({xlmBalance} XLM) may be insufficient to cover all scheduled contributions (
+          {totalScheduled} XLM total).
         </Alert>
       )}
 
@@ -289,7 +287,7 @@ export function ContributionScheduler({ groupId, groupName, contributionAmount }
                     </IconButton>
                   </Tooltip>
                 </Box>
-              ),
+              )
             )}
           </Stack>
         </>

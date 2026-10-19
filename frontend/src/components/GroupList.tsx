@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, type ChangeEvent } from 'react';
 
 import { Card } from './Card';
 import { Dropdown } from './Dropdown';
@@ -174,6 +174,21 @@ export function GroupList({
     setCurrentPage(1);
   };
 
+  const handleCurrencyChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onCurrencyChange?.(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleMinAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onMinAmountChange?.(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleMaxAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onMaxAmountChange?.(e.target.value);
+    setCurrentPage(1);
+  };
+
   const getSortLabel = () => {
     const fieldLabels: Record<SortField, string> = {
       name: 'Name',
@@ -212,11 +227,7 @@ export function GroupList({
     >
       <div className="group-list-item-content">
         {group.avatar && (
-          <img
-            src={group.avatar}
-            alt={group.name}
-            className="group-list-item-avatar"
-          />
+          <img src={group.avatar} alt={group.name} className="group-list-item-avatar" />
         )}
         {!group.avatar && (
           <div className="group-list-item-avatar-placeholder">
@@ -225,9 +236,7 @@ export function GroupList({
         )}
         <div className="group-list-item-details">
           <h3 className="group-list-item-name">{group.name}</h3>
-          {group.description && (
-            <p className="group-list-item-description">{group.description}</p>
-          )}
+          {group.description && <p className="group-list-item-description">{group.description}</p>}
           <div className="group-list-item-meta">
             {group.memberCount !== undefined && (
               <span className="group-list-item-members">
@@ -263,11 +272,7 @@ export function GroupList({
           )}
           {showSort && (
             <Dropdown
-              trigger={
-                <button className="group-list-sort-button">
-                  Sort: {getSortLabel()}
-                </button>
-              }
+              trigger={<button className="group-list-sort-button">Sort: {getSortLabel()}</button>}
               items={sortItems}
               position="bottom-end"
             />
@@ -286,7 +291,7 @@ export function GroupList({
                 className="group-list-filter-input"
                 placeholder="e.g. XLM"
                 value={currencyFilter}
-                onChange={(e) => { onCurrencyChange(e.target.value); setCurrentPage(1); }}
+                onChange={handleCurrencyChange}
                 aria-label="Filter by token type"
               />
             </label>
@@ -299,7 +304,7 @@ export function GroupList({
                 className="group-list-filter-input"
                 placeholder="Min"
                 value={minAmount}
-                onChange={(e) => { onMinAmountChange?.(e.target.value); setCurrentPage(1); }}
+                onChange={handleMinAmountChange}
                 aria-label="Minimum contribution amount"
               />
               <span aria-hidden>–</span>
@@ -308,7 +313,7 @@ export function GroupList({
                 className="group-list-filter-input"
                 placeholder="Max"
                 value={maxAmount}
-                onChange={(e) => { onMaxAmountChange?.(e.target.value); setCurrentPage(1); }}
+                onChange={handleMaxAmountChange}
                 aria-label="Maximum contribution amount"
               />
             </fieldset>

@@ -1,37 +1,19 @@
 import { Box } from '@mui/material';
+import { Suspense, type JSX } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
 import { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-<<<<<<< HEAD
-
-=======
-import { Box } from '@mui/material';
-import { Skeleton } from '../components/Skeleton/Skeleton';
 import { RouteBoundary } from './RouteBoundary';
+import { RouteLoadingFallback } from './RouteLoadingFallback';
 import { routeConfig } from './routes';
 import { ProtectedRoute } from './ProtectedRoute';
->>>>>>> fdf2a8f283604cda2c06a98035b0edb0abbe6fb9
 import { AdminRoute } from './AdminRoute';
 import { ROUTES } from './constants';
 import { ProtectedRoute } from './ProtectedRoute';
+import { RouteBoundary } from './RouteBoundary';
 import { routeConfig } from './routes';
-import { RouteErrorBoundary } from '../components/RouteErrorBoundary';
 import { Skeleton } from '../components/Skeleton/Skeleton';
-
-/** Skeleton fallback shown while a lazy route chunk is downloading. */
-function RouteLoadingFallback() {
-  return (
-    <Box
-      role="status"
-      aria-label="Loading page"
-      sx={{ p: { xs: 2, md: 3 }, maxWidth: 960, mx: 'auto', mt: 3 }}
-    >
-      <Skeleton variant="rect" width="40%" height={32} style={{ marginBottom: 16 }} />
-      <Skeleton variant="rect" width="100%" height={120} style={{ marginBottom: 12 }} />
-      <Skeleton variant="rect" width="100%" height={80} style={{ marginBottom: 12 }} />
-      <Skeleton variant="rect" width="60%" height={24} />
-    </Box>
-  );
-}
 
 /**
  * Main application router component.
@@ -77,4 +59,3 @@ export function AppRouter() {
     </Suspense>
   );
 }
-
