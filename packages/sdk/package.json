@@ -1,7 +1,7 @@
 {
   "name": "@stellar-save/sdk",
   "version": "0.1.0",
-  "description": "Shared TypeScript SDK: contract bindings, types, and API client for Stellar-Save",
+  "description": "Shared TypeScript SDK: formatting/validation utilities and domain types for Stellar-Save",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "node init && tsc --project tsconfig.json",
     "test": "vitest run",
     "lint": "eslint src",
     "check:abi": "vitest run src/abi-drift.test.ts"
